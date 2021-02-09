@@ -11,3 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  padding: 0 20vw;
+}
+.user-profile{
+  display: flex;
+  align-items: center;
+}
+img {
+  border: 2px solid whitesmoke;
+  margin: 0 2vw;
+}
+h1 {
+  margin-bottom: 0px;
+}
+.country-info{
+  padding-bottom: 24px;
+}
+.user-profile{
+  border: 4px solid whitesmoke;
+  padding: 8px 16px;
+}
