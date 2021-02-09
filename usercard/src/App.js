@@ -9,33 +9,58 @@ class App extends React.Component {
       userinfo: {},
       userfollowers: [],
       username: "JonathanMary",
+      //typedtext: "",
     }
   };
 
-  componentDidMount(){
-    axios.get(`https://api.github.com/users/${this.state.username}`)
-         .then(res => {
-           this.setState({
-             userinfo: res.data,
-            });
-         })
-         .catch(err => console.log(err))
-    axios.get(`https://api.github.com/users/${this.state.username}/followers`)
-         .then(res => {
-          console.log("FOLLOWERS: ", res.data)
-          this.setState({
-            userfollowers:res.data,
-          })
-         })
-         .catch(err => console.log(err))
+  //Put API call into a function to keep code DRY
+  apiCall = (name) => {
+    axios.get(`https://api.github.com/users/${name}`)
+    .then(res => {
+      this.setState({
+        userinfo: res.data,
+       });
+    })
+    .catch(err => console.log(err))
+axios.get(`https://api.github.com/users/${name}/followers`)
+    .then(res => {
+     //console.log("FOLLOWERS: ", res.data)
+     this.setState({
+       userfollowers:res.data,
+     })
+    })
+    .catch(err => console.log(err))
   }
 
 
+  componentDidMount(){
+    this.apiCall(this.state.username);
+    this.setState({
+      username: '',
+    })
+  }
+
+  text = evt => {
+    this.setState({
+      username: evt.target.value,
+    })
+  }
+  submit = evt => {
+    evt.preventDefault();
+    this.apiCall(this.state.username);
+    this.setState({
+      username: '',
+    })
+  }
+
   render(){
-    console.log(this.state.userfollowers)
+    //console.log(this.state.userfollowers)
     return (
       <div className="App">
         <header className="App-header">
+          <form onSubmit={this.submit} className="search-bar">
+              <input type="text" onChange={this.text} value={this.state.username} placeholder="Search new user..."></input>
+          </form>
           <div className="user-profile" >
             <img style={{borderRadius:'50%', width:'150px'}} src={this.state.userinfo.avatar_url} alt="avatar"></img>
             <div className="user-info">
